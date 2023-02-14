@@ -5,6 +5,7 @@
         v-model="query"
         @input="handleInputChange"
         @focus="handleInputFocus($event, 'focus')"
+        ref="inputRef"
         class="search__input"
         type="text"
         placeholder="Search for securities"
@@ -24,7 +25,7 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watchEffect } from "vue";
 
 const debounce = (fn, delay) => {
   let timeout;
@@ -42,8 +43,12 @@ const debounce = (fn, delay) => {
 export default defineComponent({
   name: "SearchInput",
   components: {},
-  setup(_, { emit }) {
+  props: {
+    isInputFocus: Boolean
+  },
+  setup(props, { emit }) {
     const query = ref("");
+    const inputRef = ref(null);
 
     const handleInputChange = debounce(() => {
       emit("search-term", query.value);
@@ -59,11 +64,18 @@ export default defineComponent({
       emit("input-focus", type);
     };
 
+    watchEffect(() => {
+      if (!props.isInputFocus && inputRef.value) {
+        inputRef.value.blur();
+      }
+    })
+
     return {
       query,
       handleInputChange,
       clearInput,
       handleInputFocus,
+      inputRef
     };
   },
 });

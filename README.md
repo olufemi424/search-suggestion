@@ -5,7 +5,7 @@ This repo uses Vue 3 + Vite to display a list of suggestions when user types in 
 
 ## Requirements & Acceptance
 Search results should appear upton entry of 2 or more characters in the search field ✓
-search string should be highlighted in auto-complete results using bold text styling ✓
+Search string should be highlighted in auto-complete results using bold text styling ✓
 Hover/focus state in results ✓
 
 ## UX

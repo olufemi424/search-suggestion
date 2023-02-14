@@ -6,6 +6,7 @@
     <SearchInput
       @search-term="handleSearchTerm"
       @input-focus="handleInputFocus"
+      :isInputFocus="isInputFocus"
     />
     <h3 class="suggestion__loading" v-if="state?.loading">Loading...</h3>
     <h3 class="suggestion__error" v-if="!state?.loading && state?.error">
@@ -77,12 +78,12 @@ export default defineComponent({
     const handleDocumentEvent = (e) => {
       const container = searchContainer.value;
 
-      if (e.key === "Escape" || !container.contains(e.target)) {
+      if (searchTerm.value.length > 1 && e.key === "Escape" || !container.contains(e.target)) {
         isInputFocus.value = false;
         isClickOutSide.value = true;
       }
-      // set remove focus from input
-      container.focus();
+      // // set remove focus from input
+      // container.focus();
     };
 
     const handleInputFocus = (type) => {
@@ -167,6 +168,7 @@ export default defineComponent({
       handleInputFocus,
       showSuggestions,
       searchContainer,
+      isInputFocus,
     };
   },
 });
